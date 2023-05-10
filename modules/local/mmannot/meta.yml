@@ -1,0 +1,52 @@
+name: mmannot
+description: Perform annotation
+keywords:
+  - annotation
+tools:
+  - mmannot:
+      description: |
+        A tool designed to annotates reads, or quantifies the features.
+      documentation: https://github.com/mzytnicki/mmannot
+      doi: 10.1371/journal.pone.0231738
+      licence: ["GPL v3 and LGPL v3"]  
+input:
+  - meta:
+      type: map
+      description: |
+        Groovy Map containing sample information. 
+        e.g. [ id:'test', single_end:false ]
+  - bam:
+      type: file
+      description: |
+        List of input bam files after mapping
+  - annotation:
+      type: file
+      description: File in GTF or GFF format containing annotation information.  The feature should be provided in the second and/or the third field.
+      pattern: "*.{gtf, gff}"
+  - configfile:
+      type: file
+      description: the annotation file describes which features you would like to quantify, and how.
+      
+
+output:
+  - meta:
+      type: map
+      description: |
+        Groovy Map containing sample information
+        e.g. [ id:'test', single_end:false ]
+  - annotation.tsv:
+      type: file
+      description: a tsv file, can be used by EdgeR or DESeq, contains a column of the features and other columns of each sample. The cell represents the number of reads that can be mapped to these features.
+      pattern: "annotation.tsv"
+  - statistics.txt:
+      type: file
+      description: a txt file provides the nnumber of reads used, uniquely mapping reads, rescued reads, hits, ambiguous hits and unassigned hits of each sample
+      pattern: "statistics.txt"
+  - versions:
+      type: file
+      description: File containing software versions
+      pattern: "versions.yml"
+      
+authors:
+  - "@phamhoanggiang262"
+  - "@mzytnicki"
