@@ -1,0 +1,54 @@
+name: mmquant
+description: Count reads that map to genomic features
+keywords:
+  - counts
+  - fasta
+  - genome
+  - reference
+tools:
+  - mmquant:
+      description: |
+      	mmquant counts the number of reads (produced by RNA-Seq) per gene, much like HTSeq-count and featureCounts. The main difference with other tools is that multi-mapping reads are 
+      	counted differently: if a read is mapped to gene A, gene B, and gene C, the tool will create a new feature, "geneA--geneB--geneC", that will be counted once.
+      documentation: https://bitbucket.org/mzytnicki/multi-mapping-counter/src/master/
+      doi: 10.1186/s12859-017-1816-4 
+      licence: ["GPL v3 and LGPL v3"]
+input:
+  - meta:
+      type: map
+      description: |
+        Groovy Map containing sample information
+        e.g. [ id:'test', single_end:false ]
+  - bam:
+      type: file
+      description: BAM file containing read alignments
+      pattern: "*.{bam}"
+  - annotation:
+      type: file
+      description: Genomic features annotation in GTF or GFF
+      pattern: "*.{gtf,gff}"
+output:
+  - meta:
+      type: map
+      description: |
+        Groovy Map containing sample information
+        e.g. [ id:'test', single_end:false ]
+  - count_data:
+      type: file
+      description: Counts of reads mapping to genes
+      pattern: "count_data.tsv"
+  - count_report:
+      type: file
+      description: |
+     	A report provides stats on hits; one sequence may have zero, one, or several hits. An ambiguous hit is a hit that overlaps several annotation features. A non-uniquely mapped 
+        hit belongs to a sequence that maps several loci in the genome.
+      pattern: "count_report.tsv"
+  - versions:
+      type: file
+      description: File containing software versions
+      pattern: "versions.yml"
+
+authors:
+  - "@phamhoanggiang262"
+  - "@mzytnicki"
+
